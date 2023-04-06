@@ -1,6 +1,10 @@
 {
-  "name": "orbital-osiris",
+  "name": "wallet",
   "type": "module",
+  "engines": {
+    "npm": ">= 7.0.0",
+    "yarn": "please-use-npm"
+  },
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
@@ -11,5 +15,14 @@
   },
   "dependencies": {
     "astro": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^2.8.7",
+    "sass": "^1.60.0"
   }
 }
