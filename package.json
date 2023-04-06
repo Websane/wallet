@@ -14,15 +14,23 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.2.0"
+    "@astrojs/react": "^2.1.1",
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "astro": "^2.2.0",
+    "ethers": "^6.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@metamask/providers": "^10.2.1",
     "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "^2.8.7",
+    "prettier-plugin-astro": "^0.8.0",
     "sass": "^1.60.0"
   }
 }

@@ -1,0 +1,18 @@
+.wallet {
+}
+
+.button {
+  all: unset;
+  cursor: pointer;
+  padding: 16px 24px;
+  background-color: blueviolet;
+  color: white;
+
+  $duration: 0.1s;
+  transition: transform $duration ease-in-out, opacity $duration ease-in-out;
+
+  &:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+}
