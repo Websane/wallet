@@ -27,6 +27,19 @@ const getAccountsInfo = async (accounts: JsonRpcSigner[], provider: JsonRpcProvi
   return accountsInfo;
 };
 
+const sendEthFromHardhatDefaultAcc = async (currentProvider: JsonRpcProvider, to: string, value: number) => {
+  if (currentProvider) {
+    const hardhatAccountPrivateKey = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
+    const hardhatAccountWallet = new ethers.Wallet(hardhatAccountPrivateKey, currentProvider);
+
+    const tx = await hardhatAccountWallet.sendTransaction({
+      to,
+      value: ethers.parseEther(String(value)),
+    });
+    await tx.wait();
+  }
+};
+
 export const UserWallet = () => {
   const [provider, setProvider] = useState<JsonRpcProvider | null>(null);
   const [accountsInfo, setAccountsInfo] = useState<AccountInfo[]>([]);
@@ -40,23 +53,11 @@ export const UserWallet = () => {
     const provider = new ethers.JsonRpcProvider('http://localhost:8545'); // Подключаемся к локальному блокчейну
     setProvider(provider);
 
-    const hardhatAccountPrivateKey = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
-    const hardhatAccountWallet = new ethers.Wallet(hardhatAccountPrivateKey, provider);
-
     const userPrivateKey = '0x0123456789012345678901234567890123456789012345678901234567890123';
     const userWallet = new ethers.Wallet(userPrivateKey, provider);
-    setWallet(wallet);
-
     const fromAddress = await userWallet.getAddress();
-
+    setWallet(userWallet);
     setWalletAddress(fromAddress);
-
-    // Отправляем средства с тестового аккаунта на целевой кошелек
-    const tx = await hardhatAccountWallet.sendTransaction({
-      to: fromAddress,
-      value: ethers.parseEther('150'),
-    });
-    await tx.wait();
   };
 
   const handleAccountsInfoUpdate = async () => {
@@ -69,6 +70,15 @@ export const UserWallet = () => {
   const handleWalletBalanceUpdate = async () => {
     if (provider) {
       getAddressBalance(walletAddress, provider).then((balance) => setWalletBalance(balance));
+    }
+  };
+
+  const handleGetMoreEthClick = () => {
+    if (provider) {
+      sendEthFromHardhatDefaultAcc(provider, walletAddress, 150).finally(() => {
+        handleWalletBalanceUpdate();
+        handleAccountsInfoUpdate();
+      });
     }
   };
 
@@ -96,6 +106,9 @@ export const UserWallet = () => {
           to: to,
           value: ethers.parseEther(String(value)),
         });
+        await tx.wait();
+        handleWalletBalanceUpdate();
+        handleAccountsInfoUpdate();
         console.log('Transaction sent: ', tx.hash);
       } catch (error) {
         console.error(error);
@@ -131,6 +144,7 @@ export const UserWallet = () => {
           <p>
             Balance: {walletBalance} {UNIT}
           </p>
+          <button onClick={handleGetMoreEthClick}>Get more ETH!</button>
           <button onClick={handleWalletBalanceUpdate}>Update your balance</button>
         </div>
       )}
