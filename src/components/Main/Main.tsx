@@ -55,6 +55,7 @@ export const Main = () => {
 
 
     if (addresses && addresses[0]) {
+      console.log(addresses);
       initialize(addresses[0]);
     }
   };
@@ -105,6 +106,8 @@ export const Main = () => {
     <div>
       {balance && (
         <div>
+          <p>Your address</p>
+          <p>{selectedAccount}</p>
           <p>Your balance:</p>
           <p>{ethers.formatEther(balance)} ETH</p>
         </div>

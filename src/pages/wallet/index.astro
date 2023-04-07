@@ -1,9 +1,11 @@
 ---
+import { UserWallet } from '@components/UserWallet/UserWallet';
 import Layout from '@layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to Astro.">
   <main>
     <h1>Wallet</h1>
+    <UserWallet client:only="react" />
   </main>
 </Layout>
