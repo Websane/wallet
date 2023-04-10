@@ -156,8 +156,12 @@ export const UserWallet = () => {
                 </span>
               </div>
               <div className={styles.buttons}>
-                <Button onClick={handleGetMoreEthClick}>Get more ETH!</Button>
-                <Button onClick={handleWalletBalanceUpdate}>Update your balance</Button>
+                <Button isLoading={isLoading} isDisabled={isLoading} onClick={handleGetMoreEthClick}>
+                  Get more ETH!
+                </Button>
+                <Button isLoading={isLoading} isDisabled={isLoading} onClick={handleWalletBalanceUpdate}>
+                  Update your balance
+                </Button>
               </div>
             </div>
           )}
@@ -171,7 +175,7 @@ export const UserWallet = () => {
               <span className={styles.label}> Value:</span>
               <input className={styles.input} type="text" value={value} onChange={handleValueChange} />
             </label>
-            <Button className={styles.submit} type="submit">
+            <Button isLoading={isLoading} isDisabled={isLoading} className={styles.submit} type="submit">
               Send
             </Button>
           </form>
@@ -189,7 +193,11 @@ export const UserWallet = () => {
                 </li>
               ))}
             </ul>
-            <Button className={styles.updateAccounts} onClick={handleAccountsInfoUpdate}>
+            <Button
+              isLoading={isLoading}
+              isDisabled={isLoading}
+              className={styles.updateAccounts}
+              onClick={handleAccountsInfoUpdate}>
               Update info
             </Button>
           </div>

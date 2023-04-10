@@ -1,5 +1,6 @@
 .button {
   all: unset;
+  position: relative;
   cursor: pointer;
   padding: 16px 24px;
   background-color: blueviolet;
@@ -8,8 +9,22 @@
   $duration: 0.1s;
   transition: transform $duration ease-in-out, opacity $duration ease-in-out;
 
-  &:active {
+  &:enabled:active {
     transform: scale(0.98);
     opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: initial;
+  }
+
+  .spinner {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
