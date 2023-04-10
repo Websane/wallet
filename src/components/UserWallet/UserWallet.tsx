@@ -11,6 +11,10 @@ type AccountInfo = {
 };
 
 const UNIT = 'ETH';
+const DEFAULT_FORM_VALUES = {
+  to: '',
+  value: 0
+}
 
 const getAddressBalance = async (address: string, provider: JsonRpcProvider) => {
   const rawBalance = await provider.getBalance(address);
@@ -50,8 +54,8 @@ export const UserWallet = () => {
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [walletBalance, setWalletBalance] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
-  const [to, setTo] = useState('');
-  const [value, setValue] = useState(0);
+  const [to, setTo] = useState(DEFAULT_FORM_VALUES.to);
+  const [value, setValue] = useState(DEFAULT_FORM_VALUES.value);
   const [isLoading, setIsLoading] = useState(false);
 
   const connectToProvider = async () => {
@@ -117,6 +121,11 @@ export const UserWallet = () => {
     setValue(Number(event.target.value));
   };
 
+  const clearForm = () => {
+    setTo(DEFAULT_FORM_VALUES.to);
+    setValue(DEFAULT_FORM_VALUES.value);
+  }
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (wallet) {
@@ -129,6 +138,7 @@ export const UserWallet = () => {
         await tx.wait();
         handleWalletBalanceUpdate();
         handleAccountsInfoUpdate();
+        clearForm();
         console.log('Transaction sent: ', tx.hash);
       } catch (error) {
         console.error(error);
