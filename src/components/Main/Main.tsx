@@ -4,6 +4,8 @@ import type { Maybe } from '@metamask/providers/dist/utils';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
+import styles from './Main.module.scss';
+
 const INITIAL_STATE = {
   selectedAccount: null,
   txBeingSent: null,
@@ -52,7 +54,6 @@ export const Main = () => {
     const addresses: Maybe<string[]> = await metamask?.request({
       method: 'eth_requestAccounts',
     });
-
 
     if (addresses && addresses[0]) {
       console.log(addresses);
@@ -103,14 +104,18 @@ export const Main = () => {
     );
 
   return (
-    <div>
+    <div className={styles.account}>
       {balance && (
-        <div>
-          <p>Your address</p>
-          <p>{selectedAccount}</p>
-          <p>Your balance:</p>
-          <p>{ethers.formatEther(balance)} ETH</p>
-        </div>
+        <>
+          <div>
+            <p>Your address:</p>
+            <p>{selectedAccount}</p>
+          </div>
+          <div>
+            <p>Your balance:</p>
+            <p>{ethers.formatEther(balance)} ETH</p>
+          </div>
+        </>
       )}
     </div>
   );

@@ -1,5 +1,8 @@
 import { useState, useEffect, FormEvent, ChangeEvent, useRef } from 'react';
 import { JsonRpcProvider, JsonRpcSigner, Wallet, ethers } from 'ethers';
+import { HARDHAR_URI } from '@assets/constants';
+
+import styles from './UserWallet.module.scss';
 
 type AccountInfo = {
   address: string;
@@ -50,7 +53,7 @@ export const UserWallet = () => {
   const [value, setValue] = useState(0);
 
   const connectToProvider = async () => {
-    const provider = new ethers.JsonRpcProvider('http://localhost:8545'); // Подключаемся к локальному блокчейну
+    const provider = new ethers.JsonRpcProvider(HARDHAR_URI); // Подключаемся к локальному блокчейну
     setProvider(provider);
 
     const userPrivateKey = '0x0123456789012345678901234567890123456789012345678901234567890123';
@@ -115,46 +118,61 @@ export const UserWallet = () => {
       }
     }
   };
-
+  accountsInfo.splice(5, 100); // оставлю только 5 позиций
   if (!provider) return <button onClick={connectToProvider}>Connect</button>;
 
   return (
     <div>
-      <h2>Wallet</h2>
-      {accountsInfo && (
-        <div>
-          <p>Connected</p>
-          <p>Accounts:</p>
-          <ul>
-            {accountsInfo.map(({ address, balance }) => (
-              <li key={address} style={{ display: 'grid', maxWidth: '650px', border: '1px solid black' }}>
-                <span>Address: {address}</span>
+      {accountsInfo && <p className={styles.notify}>Connected!</p>}
+      <div className={styles.wallet}>
+        {accountsInfo && (
+          <div className={styles.accounts}>
+            <h3>Accounts:</h3>
+            <ul className={styles.list}>
+              {accountsInfo.map(({ address, balance }) => (
+                <li key={address} className={styles.item}>
+                  <span>Address: {address}</span>
+                  <span>
+                    Balance: {balance} {UNIT}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <button className={styles.updateAccounts} onClick={handleAccountsInfoUpdate}>
+              Update info
+            </button>
+          </div>
+        )}
+        <div className={styles.management}>
+          {walletAddress && (
+            <div className={styles.user}>
+              <h3>Your new account:</h3>
+              <div className={styles.item}>
+                <span>Address: {walletAddress}</span>
                 <span>
-                  Balance: {balance} {UNIT}
+                  Balance: {walletBalance} {UNIT}
                 </span>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleAccountsInfoUpdate}>Update info</button>
+              </div>
+              <div className={styles.buttons}>
+                <button onClick={handleGetMoreEthClick}>Get more ETH!</button>
+                <button onClick={handleWalletBalanceUpdate}>Update your balance</button>
+              </div>
+            </div>
+          )}
+          <h3>Send ETH:</h3>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <label className={styles.inputWrapper}>
+              <span className={styles.label}>To:</span>
+              <input className={styles.input} type="text" value={to} onChange={handleToChange} />
+            </label>
+            <label className={styles.inputWrapper}>
+              <span className={styles.label}> Value:</span>
+              <input className={styles.input} type="text" value={value} onChange={handleValueChange} />
+            </label>
+            <button className={styles.submit} type="submit">Send</button>
+          </form>
         </div>
-      )}
-      {walletAddress && (
-        <div>
-          <p>Your new account: {walletAddress}</p>
-          <p>
-            Balance: {walletBalance} {UNIT}
-          </p>
-          <button onClick={handleGetMoreEthClick}>Get more ETH!</button>
-          <button onClick={handleWalletBalanceUpdate}>Update your balance</button>
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="to">To:</label>
-        <input type="text" id="to" value={to} onChange={handleToChange} />
-        <label htmlFor="value">Value:</label>
-        <input type="text" id="value" value={value} onChange={handleValueChange} />
-        <button type="submit">Send</button>
-      </form>
+      </div>
     </div>
   );
 };

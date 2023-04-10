@@ -1,3 +1,2 @@
 export const HARDHAT_NETWORK_ID = '31337';
-
-export const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
+export const HARDHAR_URI = 'http://localhost:8545';

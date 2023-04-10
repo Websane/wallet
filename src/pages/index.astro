@@ -4,29 +4,35 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to Web3">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-    <a href="/wallet">Go to wallet</a>
+  <main>
+    <h1>Welcome to <span class="text-gradient">Astro</span></h1>
+    <a href="/wallet" class="link">Go to wallet</a>
     <Main client:only="react" />
-	</main>
+  </main>
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
+  main {
+    margin: auto;
+    padding: 1.5rem;
+    max-width: 60ch;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+
+  .link {
+    display: block;
+    color: brown;
+    margin-bottom: 16px;
+  }
 </style>

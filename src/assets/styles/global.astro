@@ -1,14 +1,39 @@
-<style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
+<style is:global lang="scss">
+  :root {
+    --accent: 124, 58, 237;
+    --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
+  }
+  html {
+    font-family: system-ui, sans-serif;
+    color: white;
+    background: black;
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(78,9,121,1) 55%, rgba(12,24,27,1) 100%);
+  }
+  code {
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New,
+      monospace;
+  }
+
+  p,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+    padding: 16px 24px;
+    background-color: blueviolet;
+    color: white;
+
+    $duration: 0.1s;
+    transition: transform $duration ease-in-out, opacity $duration ease-in-out;
+
+    &:active {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+  }
 </style>

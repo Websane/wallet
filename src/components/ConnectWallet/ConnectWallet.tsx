@@ -19,7 +19,7 @@ export const ConnectWallet: FC<ConnectWalletProps> = ({ networkError, connectWal
           </button>
         </div>
       )}
-      <p>Connect your Wallet</p>
+      <p className={styles.connectButton}>Connect your Wallet: </p>
       <button className={styles.button} onClick={connectWallet}>
         Connect
       </button>

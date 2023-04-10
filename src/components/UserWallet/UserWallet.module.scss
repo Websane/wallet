@@ -1,0 +1,72 @@
+.wallet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: baseline;
+}
+
+.accounts {
+  display: grid;
+  gap: 16px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  list-style: none;
+}
+
+.item {
+  padding: 8px;
+  display: grid;
+  border: 2px solid whitesmoke;
+}
+
+.notify {
+  color: rgb(62, 226, 62);
+}
+
+.updateAccounts {
+  width: max-content;
+  justify-self: right;
+}
+
+.user {
+  display: grid;
+  gap: 16px;
+}
+
+.management {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.inputWrapper {
+  display: grid;
+  gap: 8px;
+}
+
+.input {
+  all: unset;
+  padding: 8px;
+  background-color: black;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.submit {
+  justify-self: end;
+}
