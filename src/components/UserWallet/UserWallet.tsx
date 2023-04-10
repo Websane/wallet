@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent, ChangeEvent, useRef } from 'react';
 import { JsonRpcProvider, JsonRpcSigner, Wallet, ethers } from 'ethers';
 import { HARDHAR_URI } from '@assets/constants';
+import { Button } from '@components/Button/Button';
 
 import styles from './UserWallet.module.scss';
 
@@ -51,6 +52,7 @@ export const UserWallet = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const [to, setTo] = useState('');
   const [value, setValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const connectToProvider = async () => {
     const provider = new ethers.JsonRpcProvider(HARDHAR_URI); // Подключаемся к локальному блокчейну
@@ -66,19 +68,33 @@ export const UserWallet = () => {
   const handleAccountsInfoUpdate = async () => {
     if (provider) {
       const accounts = await provider.listAccounts();
-      getAccountsInfo(accounts, provider).then((info) => setAccountsInfo(info));
+      setIsLoading(true);
+      getAccountsInfo(accounts, provider)
+        .then((info) => {
+          setAccountsInfo(info);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
   const handleWalletBalanceUpdate = async () => {
     if (provider) {
-      getAddressBalance(walletAddress, provider).then((balance) => setWalletBalance(balance));
+      setIsLoading(true);
+      getAddressBalance(walletAddress, provider)
+        .then((balance) => setWalletBalance(balance))
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
   const handleGetMoreEthClick = () => {
     if (provider) {
+      setIsLoading(true);
       sendEthFromHardhatDefaultAcc(provider, walletAddress, 150).finally(() => {
+        setIsLoading(false);
         handleWalletBalanceUpdate();
         handleAccountsInfoUpdate();
       });
@@ -105,6 +121,7 @@ export const UserWallet = () => {
     event.preventDefault();
     if (wallet) {
       try {
+        setIsLoading(true);
         const tx = await wallet.sendTransaction({
           to: to,
           value: ethers.parseEther(String(value)),
@@ -115,34 +132,19 @@ export const UserWallet = () => {
         console.log('Transaction sent: ', tx.hash);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
+
   accountsInfo.splice(5, 100); // оставлю только 5 позиций
-  if (!provider) return <button onClick={connectToProvider}>Connect</button>;
+  if (!provider) return <Button onClick={connectToProvider}>Connect</Button>;
 
   return (
     <div>
-      {accountsInfo && <p className={styles.notify}>Connected!</p>}
+      {accountsInfo.length > 0 && <p className={styles.notify}>Connected!</p>}
       <div className={styles.wallet}>
-        {accountsInfo && (
-          <div className={styles.accounts}>
-            <h3>Accounts:</h3>
-            <ul className={styles.list}>
-              {accountsInfo.map(({ address, balance }) => (
-                <li key={address} className={styles.item}>
-                  <span>Address: {address}</span>
-                  <span>
-                    Balance: {balance} {UNIT}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <button className={styles.updateAccounts} onClick={handleAccountsInfoUpdate}>
-              Update info
-            </button>
-          </div>
-        )}
         <div className={styles.management}>
           {walletAddress && (
             <div className={styles.user}>
@@ -154,8 +156,8 @@ export const UserWallet = () => {
                 </span>
               </div>
               <div className={styles.buttons}>
-                <button onClick={handleGetMoreEthClick}>Get more ETH!</button>
-                <button onClick={handleWalletBalanceUpdate}>Update your balance</button>
+                <Button onClick={handleGetMoreEthClick}>Get more ETH!</Button>
+                <Button onClick={handleWalletBalanceUpdate}>Update your balance</Button>
               </div>
             </div>
           )}
@@ -169,9 +171,29 @@ export const UserWallet = () => {
               <span className={styles.label}> Value:</span>
               <input className={styles.input} type="text" value={value} onChange={handleValueChange} />
             </label>
-            <button className={styles.submit} type="submit">Send</button>
+            <Button className={styles.submit} type="submit">
+              Send
+            </Button>
           </form>
         </div>
+        {accountsInfo.length > 0 && (
+          <div className={styles.accounts}>
+            <h3>Accounts:</h3>
+            <ul className={styles.list}>
+              {accountsInfo.map(({ address, balance }) => (
+                <li key={address} className={styles.item}>
+                  <span>Address: {address}</span>
+                  <span>
+                    Balance: {balance} {UNIT}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <Button className={styles.updateAccounts} onClick={handleAccountsInfoUpdate}>
+              Update info
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

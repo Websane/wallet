@@ -1,6 +1,8 @@
 import type { FC } from 'react';
-import styles from './ConnectWallet.module.scss';
 import type { StringOrNull } from '@components/Main/Main';
+import { Button } from '@components/Button/Button';
+
+import styles from './ConnectWallet.module.scss';
 
 type ConnectWalletProps = {
   connectWallet: () => void;
@@ -20,9 +22,7 @@ export const ConnectWallet: FC<ConnectWalletProps> = ({ networkError, connectWal
         </div>
       )}
       <p className={styles.connectButton}>Connect your Wallet: </p>
-      <button className={styles.button} onClick={connectWallet}>
-        Connect
-      </button>
+      <Button className={styles.button} onClick={connectWallet}>Connect</Button>
     </div>
   );
 };
