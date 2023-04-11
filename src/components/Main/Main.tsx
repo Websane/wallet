@@ -8,9 +8,7 @@ import styles from './Main.module.scss';
 
 const INITIAL_STATE = {
   selectedAccount: null,
-  txBeingSent: null,
   networkError: null,
-  transactionError: null,
   balance: null,
 };
 
@@ -18,9 +16,7 @@ export type StringOrNull = string | null;
 
 export const Main = () => {
   const [selectedAccount, setSelectedAccount] = useState<StringOrNull>(INITIAL_STATE.selectedAccount);
-  const [txBeingSent, setTxBeingSent] = useState<StringOrNull>(INITIAL_STATE.txBeingSent);
   const [networkError, setNetworkError] = useState<StringOrNull>(INITIAL_STATE.networkError);
-  const [transactionError, setTransactionError] = useState<StringOrNull>(INITIAL_STATE.transactionError);
   const [balance, setBalance] = useState<StringOrNull>(INITIAL_STATE.balance);
 
   const metamask = window.ethereum;
@@ -63,9 +59,7 @@ export const Main = () => {
 
   const resetState = () => {
     setSelectedAccount(INITIAL_STATE.selectedAccount);
-    setTxBeingSent(INITIAL_STATE.txBeingSent);
     setNetworkError(INITIAL_STATE.networkError);
-    setTransactionError(INITIAL_STATE.transactionError);
     setBalance(INITIAL_STATE.balance);
   };
 
