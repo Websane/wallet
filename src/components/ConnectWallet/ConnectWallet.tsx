@@ -14,14 +14,12 @@ export const ConnectWallet: FC<ConnectWalletProps> = ({ networkError, connectWal
   return (
     <div className={styles.connect}>
       {networkError && (
-        <div>
-          <p>{networkError}</p>
-          <button className={styles.button} onClick={dismissError}>
-            Dismiss
-          </button>
+        <div className={styles.error}>
+          <p className={styles.errorText}>{networkError}</p>
+          <Button className={styles.dismiss} onClick={dismissError}>Dismiss</Button>
         </div>
       )}
-      <p className={styles.connectButton}>Connect your Wallet: </p>
+      <h3 className={styles.connectButton}>Connect your Wallet: </h3>
       <Button className={styles.button} onClick={connectWallet}>Connect</Button>
     </div>
   );
